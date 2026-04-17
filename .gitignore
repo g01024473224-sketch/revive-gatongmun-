@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+output/
+_upload/
+.streamlit/secrets.toml
+
+# 샘플 데이터 (개인정보 포함)
+*.pdf
+이상준선생님_*.xlsx
