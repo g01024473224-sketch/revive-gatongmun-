@@ -43,7 +43,8 @@ def parse_student_code(val: Any) -> tuple[str, str] | None:
 def parse_tab(ws, target_month: int | None = None) -> list[dict]:
     """
     탭 하나에서 학생 블록 스캔 → 각 학생의 **첫 번째 월 블록**만 추출.
-    target_month가 지정되면 해당 월과 매칭되는 블록만 반환.
+    선생님들이 진도계획표의 월 라벨을 잘 안 고치므로,
+    시트에 적힌 월 값과 무관하게 사용자가 지정한 target_month로 강제 사용.
     """
     max_row, max_col = ws.max_row, ws.max_column
 
@@ -98,8 +99,10 @@ def parse_tab(ws, target_month: int | None = None) -> list[dict]:
         if month_row is None:
             continue
 
-        if target_month is not None and month_val != target_month:
-            continue
+        # 시트에 적힌 월 라벨은 신뢰하지 않고 사용자가 지정한 target_month로 덮어씀.
+        # (선생님들이 진도계획표의 월 표기를 잘 갱신하지 않기 때문)
+        if target_month is not None:
+            month_val = target_month
 
         # 월 라벨 위치 기준 상대 오프셋:
         #   month_col+1 = sub-label 컬럼 (교재/담당T/N주차)
