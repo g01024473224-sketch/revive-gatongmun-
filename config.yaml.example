@@ -1,0 +1,19 @@
+credentials:
+  usernames:
+    your_username:
+      email: your_email@example.com
+      failed_login_attempts: 0
+      first_name: 사용자이름
+      last_name: ''
+      logged_in: false
+      # bcrypt 해시값을 입력하세요. 평문 비밀번호를 절대 커밋하지 마세요.
+      # 해시 생성 예시:
+      #   python -c "import bcrypt; print(bcrypt.hashpw(b'YOUR_PASSWORD', bcrypt.gensalt()).decode())"
+      password: $2b$12$REPLACE_WITH_YOUR_BCRYPT_HASH
+      roles:
+        - admin
+cookie:
+  expiry_days: 30
+  key: change_this_random_string
+  name: app_auth
+  auto_hash: false

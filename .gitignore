@@ -5,6 +5,9 @@ output/
 _upload/
 .streamlit/secrets.toml
 
+# 자격증명 (평문/해시 모두 커밋 금지) — config.yaml.example 참고
+config.yaml
+
 # 샘플 데이터 (개인정보 포함)
 *.pdf
 이상준선생님_*.xlsx
