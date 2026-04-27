@@ -48,9 +48,26 @@ st.set_page_config(
 )
 
 # --- 로그인 인증 ---
+# 우선순위: st.secrets["auth"] (Streamlit Cloud) > config.yaml (로컬)
+# config.yaml은 .gitignore되어 있으므로 GitHub/배포 환경에는 없을 수 있음.
+config: dict | None = None
 config_path = BASE / "config.yaml"
-with config_path.open(encoding="utf-8") as f:
-    config = yaml.safe_load(f)
+if "auth" in st.secrets:
+    # Streamlit Cloud Secrets에서 직접 읽기 (TOML 형식)
+    config = {
+        "credentials": dict(st.secrets["auth"]["credentials"]),
+        "cookie": dict(st.secrets["auth"]["cookie"]),
+    }
+elif config_path.exists():
+    with config_path.open(encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+else:
+    st.error(
+        "❌ 인증 설정이 없습니다. "
+        "로컬 실행 시 `config.yaml`을 두거나, Streamlit Cloud에서는 "
+        "Settings → Secrets에 [auth] 섹션을 추가하세요."
+    )
+    st.stop()
 
 authenticator = stauth.Authenticate(
     config["credentials"],
